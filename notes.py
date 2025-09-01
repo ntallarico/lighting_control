@@ -8,7 +8,7 @@ Debug form accessible in browser: http://192.168.1.189/debug/clip.html
 get ip and such: https://discovery.meethue.com/
 
 To add a username
-- go to xx
+- go to http://192.168.1.189/debug/clip.html
 - URL: /api
 - Message Body: {"devicetype":"nick#davidpc"}
 - press bridge button, then click POST in the next 30 seconds
