@@ -21,4 +21,9 @@ Light controls
 - off/on: /api/<username>/lights/7/state
     - message body: {"on":false}
 
+
+
+colors:
+- normal "bright": [0.459, 0.4103]
+
 """
