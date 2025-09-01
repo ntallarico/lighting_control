@@ -3,18 +3,28 @@ import random
 import time
 
 
-# turn on party zone to normal bright setting
-def turn_on_bright_party_zone(b, group_light_names):
-    for l_name in group_light_names["Party Zone"]:
+# turn all lights in a zone to normal bright setting
+def turn_on_group_bright(b, group_light_names, group_name):
+    for l_name in group_light_names[group_name]:
         b.set_light(l_name, {'on' : True, 'transitiontime' : 5, 'bri' : 254, 'xy' : [0.459, 0.4103]})
         # print(f"{l_name} xy: {light_names[l_name].xy}")
 
-# turn off all non-party living room lights
-def turn_off_non_party_living_room(b, group_light_names):
-    for l_name in group_light_names["Non-party Living Room"]:
+# turn off lights in a group
+def turn_off_group(b, group_light_names, group_name):
+    for l_name in group_light_names[group_name]:
         b.set_light(l_name, {'on' : False})
 
-
+def crazy_mode(b, group_light_names, group_name):
+    try:
+        while True:
+            transition_time = 1
+            color = [random.random(), random.random()]
+            b.set_light(group_light_names["Party Zone"], {'on' : True, 'transitiontime' : transition_time, 'bri' : 254, 'xy' : color})
+            time.sleep(transition_time/10)
+    except KeyboardInterrupt:
+        turn_on_group_bright(b, group_light_names, group_name)        
+        # turn_on_group_bright(b, group_light_names, "Living Room")
+    
 def main():    
     b = Bridge('192.168.1.189')
 
@@ -44,17 +54,9 @@ def main():
         print(f" - {group_name}")
     print()
 
+    turn_off_group(b, group_light_names, "Non-party Living Room")
 
-    turn_off_non_party_living_room(b, group_light_names)
-
-    try:
-        while True:
-            transition_time = 1
-            color = [random.random(), random.random()]
-            b.set_light(group_light_names["Party Zone"], {'on' : True, 'transitiontime' : transition_time, 'bri' : 254, 'xy' : color})
-            time.sleep(transition_time/10)
-    except KeyboardInterrupt:
-        turn_on_bright_party_zone(b, group_light_names)
+    crazy_mode(b, group_light_names, "Party Zone")
 
 
 if __name__ == "__main__":
